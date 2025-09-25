@@ -80,6 +80,7 @@ const deleteProject = async (id: string) => {
     // Mise à jour locale après suppression réussie
   setProjects((prev) => prev.filter((p) => p.id !== Number(id)));
 
+    fetchProjects()
 
     console.log("Project deleted successfully");
   } catch (error) {
