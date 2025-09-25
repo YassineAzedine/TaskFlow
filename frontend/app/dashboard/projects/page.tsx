@@ -11,8 +11,16 @@ import FullScreenProjectModal from './components/FullScreenProjectModal';
 import { Project } from '../types/project';
 import { projectStatsData, initialProjects } from './data/mockData';
 import { useProjects } from '../hooks/useProjects';
-import { log } from 'console';
 
+type ProjectsHeaderProps = {
+  filteredProjects: Project[];
+};
+interface FullScreenProjectModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  project: Project;
+  onSaveProject: (project: Project) => void; // <-- obligatoire
+}
 export default function ProjectsPage() {
   const {
     projects,
@@ -52,7 +60,7 @@ export default function ProjectsPage() {
 
 const handleDelete = useCallback(() => {
   if (projectToDelete) {
-    deleteProject(projectToDelete.id);
+    deleteProject(projectToDelete.id.toString()); // convert number to string
     setProjectToDelete(null);
     setIsDeleteModalOpen(false);
   }
@@ -93,7 +101,7 @@ const handleDelete = useCallback(() => {
         <p className="text-gray-600">Manage all your projects in one place</p>
       </div>
 
-      <StatsGrid stats={projectStats} />
+      {/* <StatsGrid stats={projectStats} /> */}
 
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8">
         <ProjectsHeader
@@ -109,7 +117,7 @@ const handleDelete = useCallback(() => {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           project={editingProject}
-          onSave={handleSave}
+  onSave={handleSave as (p: any) => void}
           fetchProjects={fetchProjects}
           
           
@@ -134,14 +142,20 @@ const handleDelete = useCallback(() => {
   openProject={openProject}
 />
 
+{selectedProject && (
+  <FullScreenProjectModal
+    isOpen={!!selectedProject}
+    onClose={() => setSelectedProject(null)}
+    project={{ ...selectedProject, id: selectedProject.id.toString() }}
+    onSaveProject={(updatedProject) => {
+      // ici tu mets à jour ton projet
 
-        {selectedProject && (
-          <FullScreenProjectModal
-            isOpen={!!selectedProject}
-            onClose={() => setSelectedProject(null)}
-            project={selectedProject}
-          />
-        )}
+      // fermer le modal après sauvegarde
+      setSelectedProject(null);
+    }}
+  />
+)}
+
       </div>
     </DashboardLayout>
   );

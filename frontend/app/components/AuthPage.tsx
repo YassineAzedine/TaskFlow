@@ -68,14 +68,23 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
     // Redirection vers le dashboard
     router.push('/dashboard/overview');
-  } catch (error: any) {
-    console.error('Authentication error:', error);
+} catch (error: unknown) {
+  console.error("Authentication error:", error);
 
-    const message = error.response?.data?.message || 'Authentication failed. Please try again.';
-    setErrors({ general: message });
-  } finally {
-    setIsLoading(false);
+  let message = "Authentication failed. Please try again.";
+
+  if (axios.isAxiosError(error)) {
+    // error is an AxiosError here, safe to access response
+    message = error.response?.data?.message || message;
+  } else if (error instanceof Error) {
+    // generic JS Error
+    message = error.message;
   }
+
+  setErrors({ general: message });
+} finally {
+  setIsLoading(false);
+}
 };
 
   return (

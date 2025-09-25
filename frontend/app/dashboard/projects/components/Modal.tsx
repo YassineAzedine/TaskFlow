@@ -5,7 +5,7 @@ import { X, Folder, Sparkles, Save, Plus, Edit3 } from "lucide-react";
 import axios from "axios";
 
 export interface Project {
-  id?: string;
+  id?: number;
   name: string;
   description?: string;
 }
@@ -15,7 +15,7 @@ interface CenteredProjectModalProps {
   onClose: () => void;
   project?: Project;
   onSave: (project: Project) => void;
-  fetchProjects: () => [];
+fetchProjects: () => Promise<void>;
 }
 
 export default function CenteredProjectModal({
@@ -65,47 +65,52 @@ export default function CenteredProjectModal({
     }, 300);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setErrors({});
+ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setErrors({});
 
-    const ownerId = localStorage.getItem("userId");
+  const ownerId = localStorage.getItem("userId");
 
-    try {
-      let response;
+  try {
+    let response;
 
-      if (project && project.id) {
-        // update
-        response = await axios.put(
-          `http://localhost:3030/projects/${project.id}`,
-          { name, description },
-          { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-        );
-      } else {
-        // create
-        response = await axios.post(
-          "http://localhost:3030/projects",
-          { name, description, ownerId },
-          { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-        );
-      }
-
-      // update parent state
-      onSave(response.data);
-      fetchProjects();
-      // close modal
-      handleClose();
-    } catch (error: any) {
-      console.error("Erreur création ou mise à jour du projet:", error);
-      const message =
-        error.response?.data?.message ||
-        "Erreur lors de la création/mise à jour du projet";
-      setErrors({ general: message });
-    } finally {
-      setIsLoading(false);
+    if (project && project.id) {
+      // update
+      response = await axios.put(
+        `http://localhost:3030/projects/${project.id}`,
+        { name, description },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
+    } else {
+      // create
+      response = await axios.post(
+        "http://localhost:3030/projects",
+        { name, description, ownerId },
+        { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+      );
     }
-  };
+
+    // update parent state
+    onSave(response.data);
+    fetchProjects();
+    handleClose();
+  } catch (error: unknown) {
+    console.error("Erreur création ou mise à jour du projet:", error);
+
+    let message = "Erreur lors de la création/mise à jour du projet";
+
+    if (axios.isAxiosError(error)) {
+      message = error.response?.data?.message || message;
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+
+    setErrors({ general: message });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   if (!show) return null;
 

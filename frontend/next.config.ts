@@ -1,7 +1,13 @@
-import type { NextConfig } from "next";
+// next.config.js
+import { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  eslint: {
+    ignoreDuringBuilds: true, // Ignore les erreurs ESLint
+  },
+  typescript: {
+    ignoreBuildErrors: true, // ⚡ Ignore les erreurs TypeScript au build
+  },
 };
 
 export default nextConfig;

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 
 interface Task {
+  status: string;
   id: string;
   title: string;
   completed: boolean;
@@ -22,7 +23,7 @@ interface FullScreenProjectModalProps {
   onSaveProject: (project: Project) => void; // Save updated project
 }
 
-export default function FullScreenProjectModal({ isOpen, onClose, project, onSaveProject }: FullScreenProjectModalProps) {
+export default function FullScreenProjectModal({ isOpen, onClose, project, onSaveProject ,  }: FullScreenProjectModalProps) {
 
     
   const [localProject, setLocalProject] = useState<Project | undefined>(project);
@@ -36,17 +37,20 @@ export default function FullScreenProjectModal({ isOpen, onClose, project, onSav
 
   const addTask = () => {
     if (!newTaskTitle) return;
-    const newTask: Task = { id: Date.now().toString(), title: newTaskTitle, completed: false };
+    const newTask: Task = {
+      id: Date.now().toString(), title: newTaskTitle, completed: false,
+      status: ""
+    };
     setLocalProject(prev => prev ? { ...prev, tasks: [...prev.tasks, newTask] } : prev);
     setNewTaskTitle("");
   };
 
-  const toggleTask = (id: string) => {
-    setLocalProject(prev => prev ? {
-      ...prev,
-      tasks: prev.tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t)
-    } : prev);
-  };
+  // const toggleTask = (id: string) => {
+  //   setLocalProject(prev => prev ? {
+  //     ...prev,
+  //     tasks: prev.tasks.map(t => t.id === id ? { ...t, completed: !t.completed } : t)
+  //   } : prev);
+  // };
 
   const deleteTask = (id: string) => {
     setLocalProject(prev => prev ? {
@@ -60,9 +64,9 @@ export default function FullScreenProjectModal({ isOpen, onClose, project, onSav
     onClose();
   };
 
-  const progress = Math.round(
-    // (localProject.tasks.filter(t => t.completed).length / (localProject.tasks.length || 1)) * 100
-  );
+ const progress = Math.round(
+  (localProject.tasks.filter(t => t.status === 'done').length / (localProject.tasks.length || 1)) * 100
+);
 
   return (
     <>

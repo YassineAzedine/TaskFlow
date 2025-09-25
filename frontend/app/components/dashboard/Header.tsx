@@ -1,7 +1,7 @@
 // components/dashboard/Header.tsx
 'use client';
 
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 
 interface UserData {
   name: string;
@@ -14,12 +14,12 @@ interface HeaderProps {
 }
 
 export default function Header({ setSidebarOpen, userData }: HeaderProps) {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    router.push('/signin');
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token');
+  //   router.push('/signin');
+  // };
 
   return (
     <header className="flex items-center justify-between h-16 px-6 bg-white border-b border-gray-200">

@@ -37,7 +37,7 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
         </svg>
         <h3 className="mt-2 text-sm font-medium text-gray-900">No projects found</h3>
         <p className="mt-1 text-sm text-gray-500">
-          Try adjusting your search or filter to find what you're looking for.
+          Try adjusting your search or filter to find what youre looking for.
         </p>
         <div className="mt-6">
           <button 
@@ -124,7 +124,8 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
               aria-hidden="true"
             ></span>
             <span className="text-sm font-medium text-gray-900">
-  {`${project.owner.firstName} ${project.owner.lastName}`}
+{`${project.owner?.firstName || ''} ${project.owner?.lastName || ''}`}
+
 </span>
           </div>
         </td>
@@ -141,11 +142,14 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
         </td>
         {/* Created Date */}
         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-          {new Date(project.createdAt).toLocaleDateString('fr-FR', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
-          })}
+       {project.createdAt
+  ? new Date(project.createdAt).toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
+  : '—'}
+
         </td>
 
         {/* Actions */}
@@ -183,11 +187,12 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
               </button>
 
               {/* Badge: nombre de tâches */}
-              {project.taskCount > 0 && (
-                <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-green-600 rounded-full">
-                  {project.taskCount}
-                </span>
-              )}
+            {project.tasks.length > 0 && (
+  <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-green-600 rounded-full">
+    {project.tasks.length}
+  </span>
+)}
+
             </Link>
           </div>
         </td>

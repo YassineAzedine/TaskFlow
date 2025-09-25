@@ -1,7 +1,6 @@
 // app/layout.tsx
 import './globals.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
+
 import HeaderWrapper from './components/HeaderWrapper';
 import FooterWrapper from './components/FooterWrapper';
 

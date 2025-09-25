@@ -1,5 +1,5 @@
 // app/dashboard/projects/data/mockData.ts
-import { Project, ProjectStatus } from '../../types/project';
+import { Project } from '../../types/project';
 
 export const initialProjects: Project[] = [
   {

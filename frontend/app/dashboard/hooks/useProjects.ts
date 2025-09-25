@@ -4,32 +4,40 @@ import axios from "axios";
 import { Project } from "../types/project";
 
 export const useProjects = (initialProjects: Project[]) => {
+  console.log(initialProjects)
   const [projects, setProjects] = useState<Project[]>([]);
   const [filter, setFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+const fetchProjects = async () => {
+  setLoading(true);
+  setError(null);
 
-  const fetchProjects = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const token = localStorage.getItem("token");
-      const response = await axios.get("http://localhost:3030/projects", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      setProjects(response.data);
-    } catch (err: any) {
-      console.error("Error fetching projects:", err);
-      setError(
-        err.response?.data?.message ||
-          "Erreur lors de la récupération des projets"
-      );
-    } finally {
-      setLoading(false);
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get("http://localhost:3030/projects", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setProjects(response.data);
+  } catch (err: unknown) {
+    console.error("Error fetching projects:", err);
+
+    let message = "Erreur lors de la récupération des projets";
+
+    if (axios.isAxiosError(err)) {
+      // Axios error: safe to access response.data.message
+      message = err.response?.data?.message || message;
+    } else if (err instanceof Error) {
+      // Generic JS error
+      message = err.message;
     }
-  };
 
+    setError(message);
+  } finally {
+    setLoading(false);
+  }
+};
   useEffect(() => {
     fetchProjects();
   }, []);
@@ -69,7 +77,8 @@ const deleteProject = async (id: string) => {
     });
 
     // Mise à jour locale après suppression réussie
-    setProjects((prev) => prev.filter((p) => p.id !== id));
+  setProjects((prev) => prev.filter((p) => p.id !== Number(id)));
+
 
     console.log("Project deleted successfully");
   } catch (error) {

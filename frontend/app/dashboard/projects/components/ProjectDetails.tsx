@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, MoreVertical, Calendar, User, Clock, Archive, AlertCircle, X } from 'lucide-react';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
+import { Project } from '../../types/project';
 
 // Types
 interface Task {
@@ -12,7 +13,7 @@ interface Task {
   description?: string;
   status: 'backlog' | 'todo' | 'in-progress' | 'review' | 'done';
   priority: 'low' | 'medium' | 'high' | 'urgent';
-  assignee?: string;
+  assignedUserId?: string;
   dueDate?: string;
   projectId: string;
 }
@@ -24,8 +25,12 @@ interface Column {
   color: string;
   limit?: number;
 }
+type ProjectDetailsProps = {
+  project: Project;
+  onSaveProject: (project: Project) => void;
+};
 
-const TrelloBoard = () => {
+const TrelloBoard = ({  }: ProjectDetailsProps) => {
 
   //edit Task 
  const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -49,8 +54,8 @@ function updateTask() {
   if (!selectedTask) return;
 
   // Sélectionne uniquement les champs modifiables
-  const { _id, title, description, priority, dueDate, assignee } = selectedTask;
-  const taskData = { title, description, priority, dueDate, assignee };
+  const { _id, title, description, priority, dueDate, assignedUserId } = selectedTask;
+  const taskData = { title, description, priority, dueDate, assignedUserId };
 
   axios
     .put(`http://localhost:3030/tasks/${_id}`, taskData)
@@ -128,33 +133,47 @@ const fetchTasks = async () => {
   }, [id]);
 
   // --- Optimistic Add Task ---
-  const addTask = async () => {
-    if (!newTask.title.trim()) return;
+const addTask = async () => {
+  if (!newTask.title.trim() || !id) return;
+  const projectId = Array.isArray(id) ? id[0] : id;
 
-    const tempId = Date.now().toString(); // ID temporaire pour UI
-    const task = {
-      title: newTask.title,
-      description: newTask.description,
-      status: selectedColumn,
-      priority: newTask.priority,
-      assignedUserId: ownerId || 'unknown',
-      dueDate: newTask.dueDate || undefined,
-      projectId: id,
-    };
+  const tempId = Date.now().toString(); // ID temporaire uniquement pour le frontend
 
-    setTasks(prev => [...prev, { ...task, _id: tempId }]);
-    setNewTask({ title: '', description: '', priority: 'medium', assignee: '', dueDate: '', tags: '' });
-    setShowPopup(false);
-
-    try {
-      const res = await axios.post('http://localhost:3030/tasks', task);
-      const savedTask = res.data;
-      setTasks(prev => prev.map(t => t._id === tempId ? savedTask : t));
-    } catch (err) {
-      setTasks(prev => prev.filter(t => t._id !== tempId));
-      console.error(err);
-    }
+  // Tâche côté frontend
+  const tempTask: Task = {
+    _id: tempId, // juste pour React (⚠️ ne sera pas envoyé au backend)
+    title: newTask.title,
+    description: newTask.description || '',
+    status: selectedColumn,
+    priority: newTask.priority,
+    assignedUserId: ownerId || 'unknown',
+    dueDate: newTask.dueDate || undefined,
+    projectId
   };
+
+  // Ajout optimiste dans le state
+  setTasks(prev => [...prev, tempTask]);
+
+  // Reset form
+  setNewTask({ title: '', description: '', priority: 'medium', assignee: '', dueDate: '', tags: '' });
+  setShowPopup(false);
+
+  try {
+    // On envoie la tâche SANS _id
+    const { _id, ...taskData } = tempTask;
+    const res = await axios.post('http://localhost:3030/tasks', taskData);
+    const savedTask: Task = res.data;
+
+    // Remplace la tâche temporaire par la vraie
+    setTasks(prev => prev.map(t => t._id === tempId ? savedTask : t));
+  } catch (err) {
+    // En cas d'erreur, supprime la tâche temporaire
+    setTasks(prev => prev.filter(t => t._id !== tempId));
+    console.error(err);
+  }
+};
+
+
 
   // --- Optimistic Move Task ---
   const moveTask = async (taskId: string, newStatus: Task['status']) => {
@@ -185,6 +204,7 @@ const fetchTasks = async () => {
       console.log("Task moved:", taskMove);
       
     } catch (err) {
+      console.error("Erreur lors du déplacement de la tâche :", err);
       setTasks(oldTasks);
       alert('Impossible de déplacer la tâche !');
     }
@@ -345,10 +365,10 @@ const fetchTasks = async () => {
       {/* Footer */}
       <div className="flex items-center justify-between text-sm text-gray-500">
         <div className="flex items-center gap-3">
-          {task.assignee && (
+          {task.assignedUserId && (
             <div className="flex items-center gap-1">
               <User size={12} />
-              <span>{task.assignee}</span>
+              <span>{task.assignedUserId}</span>
             </div>
           )}
           {task.dueDate && (
@@ -363,7 +383,7 @@ const fetchTasks = async () => {
           )}
         </div>
         <button
-          onClick={() => deleteTask(task._id)}
+      onClick={() => task._id && deleteTask(task._id)}
           className="opacity-0 group-hover:opacity-100 text-red-500 hover:bg-red-50 p-1 rounded transition-all"
         >
           <Archive size={12} />
@@ -443,7 +463,7 @@ const fetchTasks = async () => {
       <input
         type="text"
         placeholder="Assigné à..."
-        value={selectedTask.assignee || ""}
+        value={selectedTask.assignedUserId || ""}
         onChange={(e) => setSelectedTask(prev => prev ? { ...prev, assignee: e.target.value } : prev)}
         className="w-full p-2 mb-2 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       />

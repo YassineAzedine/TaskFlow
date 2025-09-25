@@ -23,23 +23,36 @@ export const useTasks = ({ projectId }: UseTasksProps) => {
   const [error, setError] = useState<string | null>(null);
 
   // 🔹 Fetch tasks
-  const fetchTasks = async () => {
-    if (!projectId) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const token = localStorage.getItem("token");
-      const res = await axios.get(`http://localhost:3030/projects/${projectId}/tasks`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setTasks(res.data);
-    } catch (err: any) {
-      console.error("Error fetching tasks:", err);
-      setError(err.response?.data?.message || "Erreur lors de la récupération des tâches");
-    } finally {
-      setLoading(false);
+const fetchTasks = async () => {
+  if (!projectId) return;
+  setLoading(true);
+  setError(null);
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await axios.get(
+      `http://localhost:3030/projects/${projectId}/tasks`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+    setTasks(res.data);
+  } catch (err: unknown) {
+    console.error("Error fetching tasks:", err);
+
+    let message = "Erreur lors de la récupération des tâches";
+
+    if (axios.isAxiosError(err)) {
+      // Safe to access response for Axios errors
+      message = err.response?.data?.message || message;
+    } else if (err instanceof Error) {
+      // Generic JS error
+      message = err.message;
     }
-  };
+
+    setError(message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchTasks();

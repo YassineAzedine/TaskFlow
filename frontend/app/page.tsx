@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { TaskList } from './components/TaskList';
+
 
 export default function Home() {
   const [token, setToken] = useState<string | null>(null);
@@ -35,7 +35,7 @@ export default function Home() {
           Organisez votre travail, simplifiez votre vie
         </h1>
         <p className="text-xl text-gray-700 mb-10">
-          TaskFlow est l'outil ultime de gestion de tâches pour les freelances et créatifs.
+          TaskFlow est loutil ultime de gestion de tâches pour les freelances et créatifs.
           Centralisez vos projets, suivez votre productivité et atteignez vos objectifs.
         </p>
 
@@ -76,7 +76,7 @@ export default function Home() {
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Fonctionnalités conçues pour les créatifs</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Des outils puissants qui s'adaptent à votre flux de travail, pas l'inverse
+            Des outils puissants qui sadaptent à votre flux de travail, pas linverse
           </p>
         </div>
         
@@ -127,7 +127,7 @@ export default function Home() {
                 <p className="text-gray-500">Designer Freelance</p>
               </div>
             </div>
-            <p className="text-gray-600">"TaskFlow a révolutionné ma gestion de projets. Je peux enfin visualiser l'avancement de tous mes clients en un clin d'œil."</p>
+            <p className="text-gray-600">TaskFlow a revolutionne ma gestion de projets. Je peux enfin visualiser lavancement de tous mes clients en un clin dœil.</p>
           </div>
           
           <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
@@ -140,7 +140,7 @@ export default function Home() {
                 <p className="text-gray-500">Développeur Web</p>
               </div>
             </div>
-            <p className="text-gray-600">"L'export PDF est parfait pour envoyer des rapports à mes clients. Ça fait professionnel et ça me fait gagner un temps précieux."</p>
+            <p className="text-gray-600">Lexport PDF est parfait pour envoyer des rapports à mes clients. Ça fait professionnel et ça me fait gagner un temps precieux.</p>
           </div>
           
           <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
@@ -153,7 +153,7 @@ export default function Home() {
                 <p className="text-gray-500">Rédactrice Indépendante</p>
               </div>
             </div>
-            <p className="text-gray-600">"Le tableau Kanban m'aide à prioriser mes articles. Je n'ai plus jamais de trou de mémoire sur les deadlines !"</p>
+            <p className="text-gray-600">Le tableau Kanban maide à prioriser mes articles. Je nai plus jamais de trou de mémoire sur les deadlines !</p>
           </div>
         </div>
       </section>

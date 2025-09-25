@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
+import Sidebar from './dashboard/Sidebar';
 import Header from './Header';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -10,7 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar desktop */}
       <div className="hidden md:flex">
-        <Sidebar />
+        <Sidebar sidebarOpen={false} setSidebarOpen={function (): void {
+          throw new Error('Function not implemented.');
+        } } userData={null}  />
       </div>
 
       {/* Sidebar mobile */}
@@ -21,7 +23,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             onClick={() => setSidebarOpen(false)}
           ></div>
           <div className="relative flex flex-col w-64 bg-white shadow-md">
-            <Sidebar />
+            <Sidebar sidebarOpen={false} setSidebarOpen={function (): void {
+              throw new Error('Function not implemented.');
+            } } userData={null} />
           </div>
         </div>
       )}

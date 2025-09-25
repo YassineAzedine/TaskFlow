@@ -10,24 +10,19 @@ import StatsGrid from '@/app/components/dashboard/StatsGrid';
 const allTasks = [
   { id: 1, project: 'Website Redesign', title: 'Review homepage design', due: 'Today', priority: 'high', status: 'To Do', assignee: 'You' },
   { id: 2, project: 'Website Redesign', title: 'Implement responsive layout', due: 'Tomorrow', priority: 'high', status: 'In Progress', assignee: 'Sarah M.' },
-  { id: 3, project: 'Website Redesign', title: 'Optimize images and assets', due: 'Jun 12', priority: 'medium', status: 'To Do', assignee: 'Mike T.' },
-  { id: 4, project: 'Website Redesign', title: 'Test cross-browser compatibility', due: 'Jun 14', priority: 'medium', status: 'To Do', assignee: 'You' },
-  { id: 5, project: 'Mobile App Development', title: 'Implement user authentication', due: 'Jun 15', priority: 'high', status: 'In Progress', assignee: 'You' },
-  { id: 6, project: 'Mobile App Development', title: 'Design onboarding flow', due: 'Jun 18', priority: 'medium', status: 'To Do', assignee: 'John D.' },
-  { id: 7, project: 'Marketing Campaign', title: 'Finalize ad copy', due: 'Jun 20', priority: 'low', status: 'Completed', assignee: 'You' },
-  { id: 8, project: 'Marketing Campaign', title: 'Create social media assets', due: 'Jun 22', priority: 'medium', status: 'To Do', assignee: 'Lisa K.' },
-  { id: 9, project: 'Client Portal', title: 'Test payment integration', due: 'Jun 25', priority: 'high', status: 'In Progress', assignee: 'You' },
-  { id: 10, project: 'Client Portal', title: 'Document API endpoints', due: 'Jun 28', priority: 'low', status: 'To Do', assignee: 'Mike T.' },
+ 
 ];
-
+type StatItem = {
+  name: string;
+  value: string;
+  change: string;
+  changeType: "positive" | "negative";
+};
 // Task stats
-const taskStats = [
-  { name: 'Total Tasks', value: allTasks.length.toString(), change: '+3', changeType: 'positive' },
-  { name: 'Completed', value: allTasks.filter(t => t.status === 'Completed').length.toString(), change: '+2', changeType: 'positive' },
-  { name: 'In Progress', value: allTasks.filter(t => t.status === 'In Progress').length.toString(), change: '+1', changeType: 'positive' },
-  { name: 'Overdue', value: '2', change: '-1', changeType: 'negative' },
+const taskStats: StatItem[] = [
+  { name: "Tasks", value: "20", change: "+5", changeType: "positive" },
+  { name: "Completed", value: "15", change: "-2", changeType: "negative" },
 ];
-
 export default function TasksPage() {
   const [filter, setFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
@@ -206,7 +201,7 @@ export default function TasksPage() {
             </svg>
             <h3 className="mt-2 text-sm font-medium text-gray-900">No tasks found</h3>
             <p className="mt-1 text-sm text-gray-500">
-              Try adjusting your search or filter to find what you're looking for.
+              Try adjusting your search or filter to find what youre looking for.
             </p>
             <div className="mt-6">
               <button className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

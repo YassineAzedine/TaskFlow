@@ -1,22 +1,48 @@
 // app/dashboard/projects/page.tsx
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+
 import DashboardLayout from '@/app/components/dashboard/Layout';
-import StatsGrid from '@/app/components/dashboard/StatsGrid';
-import ProjectsTable from '../components/ProjectsTable';
-import ProjectsHeader from '../components/ProjectsHeader';
-import ProjectModal from '../components/Modal';
+
+
+
 import { Project } from '../../types/project';
-import DeleteConfirmModal from "../components/confirmDelete";
-import { projectStatsData, initialProjects } from '../data/mockData';
-import { useProjects } from '../../hooks/useProjects';
-import FullScreenProjectModal from '../components/FullScreenProjectModal';
+
+
+
+
 import ProjectDetails from '../components/ProjectDetails';
 
 export default function ProjectsPage() {
  
- const project  = { id: 2, name: 'Mobile App Development', progress: 60, numtasks: 20, completed: 12, color: 'bg-purple-500', status: 'In Progress', team: 5, deadline: '2023-08-20', tasks: [], description: undefined }
+const project: Project = {
+  _id: "1",
+  createdAt: new Date(),
+  id: 2,
+  name: "Mobile App Development",
+  progress: 60,
+  numtasks: 20,
+  completed: 12,
+  color: "bg-purple-500",
+  status: "In Progress", // ✅ doit correspondre exactement à ProjectStatus
+  team: 5,
+  deadline: "2025-09-30",
+  tasks: [
+    {
+      id: "t1",
+      title: "Design UI",
+      status: "todo",
+      completed: false
+    },
+    {
+      id: "t2",
+      title: "Setup Backend",
+      status: "in-progress",
+        completed: false
+    }
+  ],
+  description: "Develop the mobile app MVP"
+};
 
   // Calculate stats based on current projects
 
@@ -41,7 +67,7 @@ export default function ProjectsPage() {
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8">
      
         
-        <ProjectDetails project={project} onSaveProject={function (project: Project): void {
+        <ProjectDetails project={project} onSaveProject={function (): void {
               throw new Error('Function not implemented.');
           } }/>
 

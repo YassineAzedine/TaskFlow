@@ -5,15 +5,27 @@ import StatsGrid from '@/app/components/dashboard/StatsGrid';
 import ProjectList from '@/app/components/dashboard/ProjectList';
 import TaskList from '@/app/components/dashboard/TaskList';
 import ActivityFeed from '@/app/components/dashboard/ActivityFeed';
+type StatItem = {
+  name: string;
+  value: string;
+  change: string;
+  changeType: "positive" | "negative";
+};
+type Task = {
+  id: number;
+  project: string;
+  title: string;
+  due: string;
+  priority: "high" | "medium" | "low";
+};
 
 // Mock data (would come from API in real app)
-const statsData = [
+const statsData: StatItem[] = [
   { name: 'Total Projects', value: '12', change: '+2', changeType: 'positive' },
   { name: 'Completed Tasks', value: '84', change: '+12', changeType: 'positive' },
   { name: 'Overdue Tasks', value: '3', change: '-1', changeType: 'negative' },
   { name: 'Team Members', value: '5', change: '+2', changeType: 'positive' },
 ];
-
 const recentProjects = [
   { id: 1, name: 'Website Redesign', progress: 85, tasks: 12, completed: 10, color: 'bg-indigo-500' },
   { id: 2, name: 'Mobile App Development', progress: 60, tasks: 20, completed: 12, color: 'bg-purple-500' },
@@ -21,12 +33,12 @@ const recentProjects = [
   { id: 4, name: 'Client Portal', progress: 90, tasks: 8, completed: 7, color: 'bg-blue-500' },
 ];
 
-const upcomingTasks = [
-  { id: 1, project: 'Website Redesign', title: 'Review homepage design', due: 'Today', priority: 'high' },
-  { id: 2, project: 'Mobile App Development', title: 'Implement user authentication', due: 'Tomorrow', priority: 'medium' },
-  { id: 3, project: 'Marketing Campaign', title: 'Finalize ad copy', due: 'Jun 12', priority: 'low' },
-  { id: 4, project: 'Client Portal', title: 'Test payment integration', due: 'Jun 14', priority: 'high' },
+const upcomingTasks: Task[] = [
+  { id: 1, project: "Website Redesign", title: "Fix navbar", due: "2025-09-30", priority: "high" },
+  { id: 2, project: "Mobile App", title: "Push notification bug", due: "2025-10-05", priority: "medium" },
+  { id: 3, project: "Dashboard", title: "Update charts", due: "2025-10-10", priority: "low" },
 ];
+
 
 const activities = [
   { id: 1, user: 'You', action: 'created', item: 'new task', project: 'Website Redesign', time: '2 hours ago' },

@@ -5,18 +5,18 @@ import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [token, setToken] = useState<string | null>(null);
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     const t = localStorage.getItem('token');
     setToken(t);
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-    router.push('/');
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem('token');
+  //   setToken(null);
+  //   router.push('/');
+  // };
 
   return (
        <nav className="flex justify-between items-center p-6 max-w-7xl mx-auto">

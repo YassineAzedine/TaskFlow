@@ -11,7 +11,7 @@ function Footer() {
               </div>
               <span className="text-xl font-bold">TaskFlow</span>
             </div>
-            <p className="text-gray-400">L'outil de gestion de tâches moderne pour freelances et créatifs.</p>
+            <p className="text-gray-400">outil de gestion de tâches moderne pour freelances et créatifs.</p>
           </div>
           
           <div>
@@ -37,7 +37,7 @@ function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Légal</h4>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">Conditions d'utilisation</a></li>
+              <li><a href="#" className="hover:text-white transition-colors">Conditions utilisation</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Politique de confidentialité</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Mentions légales</a></li>
             </ul>

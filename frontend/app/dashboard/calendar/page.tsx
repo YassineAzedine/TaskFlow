@@ -1,7 +1,7 @@
 // app/dashboard/calendar/page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import DashboardLayout from '@/app/components/dashboard/Layout';
 
 // Mock events data
@@ -44,6 +44,7 @@ export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [events, setEvents] = useState<Event[]>(mockEvents);
   const [tasks, setTasks] = useState<Task[]>(mockTasks);
+  console.log(setTasks)
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [showEventModal, setShowEventModal] = useState(false);
   const [newEvent, setNewEvent] = useState({

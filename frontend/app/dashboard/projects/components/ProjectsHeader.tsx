@@ -1,5 +1,6 @@
 // app/dashboard/projects/components/ProjectsHeader.tsx
-import { ProjectStatus } from '../../types/project';
+;
+import { Project } from "./Modal";
 
 interface ProjectsHeaderProps {
   searchQuery: string;
@@ -7,7 +8,7 @@ interface ProjectsHeaderProps {
   filter: string;
   onFilterChange: (filter: string) => void;
   onNewProject: () => void;
-  filteredProjects: any[];
+ filteredProjects: Project[];
 }
 
 const ProjectsHeader: React.FC<ProjectsHeaderProps> = ({
@@ -16,7 +17,8 @@ const ProjectsHeader: React.FC<ProjectsHeaderProps> = ({
   filter,
   onFilterChange,
   onNewProject ,
-  filteredProjects
+  
+ 
 }) => {
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
