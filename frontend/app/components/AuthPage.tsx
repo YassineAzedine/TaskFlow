@@ -51,7 +51,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 
   try {
     // Appel HTTP réel
-    const response = await axios.post('http://localhost:3030/auth/login', {
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
       email: email,
       password: password
     });

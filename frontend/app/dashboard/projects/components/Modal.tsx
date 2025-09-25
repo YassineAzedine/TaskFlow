@@ -78,14 +78,14 @@ export default function CenteredProjectModal({
     if (project && project.id) {
       // update
       response = await axios.put(
-        `http://localhost:3030/projects/${project.id}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/projects/${project.id}`,
         { name, description },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
     } else {
       // create
       response = await axios.post(
-        "http://localhost:3030/projects",
+       `${process.env.NEXT_PUBLIC_API_URL}/projects`,
         { name, description, ownerId },
         { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
       );
