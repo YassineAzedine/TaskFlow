@@ -60,6 +60,7 @@ const fetchProjects = async () => {
     setProjects((prev) =>
       prev.map((p) => (p.id === project.id ? project : p))
     );
+    fetchProjects
   };
 
 const deleteProject = async (id: string) => {

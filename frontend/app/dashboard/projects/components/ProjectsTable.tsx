@@ -186,12 +186,7 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
                 Tasks
               </button>
 
-              {/* Badge: nombre de tâches */}
-            {project.tasks.length > 0 && (
-  <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-green-600 rounded-full">
-    {project.tasks.length}
-  </span>
-)}
+  
 
             </Link>
           </div>
