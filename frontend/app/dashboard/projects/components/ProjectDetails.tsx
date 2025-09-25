@@ -31,6 +31,7 @@ type ProjectDetailsProps = {
 };
 
 const TrelloBoard = ({  }: ProjectDetailsProps) => {
+  console.log("Rendering TrelloBoard with project:",  process.env.NEXT_PUBLIC_API_URL);
 
   //edit Task 
  const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -58,7 +59,7 @@ function updateTask() {
   const taskData = { title, description, priority, dueDate, assignedUserId };
 
   axios
-    .put(`http://localhost:3030/tasks/${_id}`, taskData)
+    .put(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${_id}`, taskData)
     .then((res) => {
       console.log("Tâche mise à jour :", res.data);
 
@@ -116,7 +117,7 @@ const fetchTasks = async () => {
     if (!id) return;
 
     const token = localStorage.getItem("token"); // récupère le token
-    const res = await axios.get(`http://localhost:3030/projects/${id}/tasks`, {
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects/${id}/tasks`, {
       headers: {
         Authorization: `Bearer ${token}`, // passe le token dans le header
       },
@@ -161,7 +162,7 @@ const addTask = async () => {
   try {
     // On envoie la tâche SANS _id
     const { _id, ...taskData } = tempTask;
-    const res = await axios.post('http://localhost:3030/tasks', taskData);
+    const res = await axios.post( `${process.env.NEXT_PUBLIC_API_URL}/tasks`, taskData);
     const savedTask: Task = res.data;
 
     // Remplace la tâche temporaire par la vraie
@@ -196,7 +197,7 @@ const addTask = async () => {
     );
 
     try {
-    const taskMove =   await fetch(`http://localhost:3030/tasks/${taskId}`, {
+    const taskMove =   await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${taskId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
@@ -218,7 +219,7 @@ const addTask = async () => {
     setTasks(prev => prev.filter(t => t._id !== taskId));
 
     try {
-      const response = await fetch(`http://localhost:3030/tasks/${taskId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/tasks/${taskId}`, {
         method: 'DELETE',
       });
 

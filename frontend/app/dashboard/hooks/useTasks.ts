@@ -31,7 +31,7 @@ const fetchTasks = async () => {
   try {
     const token = localStorage.getItem("token");
     const res = await axios.get(
-      `http://localhost:3030/projects/${projectId}/tasks`,
+      `${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/tasks`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     setTasks(res.data);
@@ -74,7 +74,7 @@ const fetchTasks = async () => {
     setTasks((prev) => [...prev, { ...task, _id: tempId }]); // Optimistic UI
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.post(`http://localhost:3030/projects/${projectId}/tasks`, task, {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/tasks`, task, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const savedTask = res.data;
@@ -89,7 +89,7 @@ const fetchTasks = async () => {
   const updateTask = async (task: Task) => {
     try {
       const token = localStorage.getItem("token");
-      await axios.patch(`http://localhost:3030/projects/${projectId}/tasks/${task._id}`, task, {
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/tasks/${task._id}`, task, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks((prev) => prev.map((t) => (t._id === task._id ? task : t)));
@@ -104,7 +104,7 @@ const fetchTasks = async () => {
     setTasks((prev) => prev.filter((t) => t._id !== taskId)); // Optimistic UI
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:3030/projects/${projectId}/tasks/${taskId}`, {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/projects/${projectId}/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
     } catch (err) {

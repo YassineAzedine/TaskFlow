@@ -16,7 +16,7 @@ const fetchProjects = async () => {
 
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get("http://localhost:3030/projects", {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/projects`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setProjects(response.data);
@@ -70,7 +70,7 @@ const deleteProject = async (id: string) => {
     const token = localStorage.getItem("token");
 
     // Appel API pour supprimer le projet avec le token dans les headers
-    await axios.delete(`http://localhost:3030/projects/${id}`, {
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/projects/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
