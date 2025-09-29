@@ -45,8 +45,8 @@ export class TasksService {
   async findAll(): Promise<Task[]> {
     return this.taskModel
       .find()
-      .populate('project')        // Remplit le projet
-      .populate('assignedUser')   // Remplit l'utilisateur assigné
+      // .populate('project')        // Remplit le projet
+      // .populate('assignedUser')   // Remplit l'utilisateur assigné
       .exec();
   }
 
@@ -113,5 +113,15 @@ async update(taskId: string, updateDto: UpdateTaskDto): Promise<Task> {
     return updatedTask;
   }
 
-
+async findBySprint(sprintId: string): Promise<Task[]> {
+  console.log('sprintId', sprintId);
+  // Convert string to ObjectId seulement si sprintId est valide
+  const tasks = await this.taskModel
+    .find({ sprintId: sprintId })
+    .populate('sprintId')      // récupère les infos du sprint    // si besoin
+    // si besoin
+    .exec();
+  console.log('tasks', tasks);
+  return tasks;
+}
 }

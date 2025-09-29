@@ -177,13 +177,13 @@ const ProjectsTable: React.FC<ProjectsTableProps> = ({
             </button>
 
             {/* Access Tasks Button */}
-            <Link href={`/dashboard/projects/${project.id}`} className="relative">
+            <Link href={`/dashboard/sprints/${project.id}`} className="relative">
               <button
                 className="flex items-center gap-1 bg-green-50 text-green-700 hover:bg-green-100 hover:text-green-900 px-3 py-1 rounded-md transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-green-500"
                 aria-label={`Tasks of ${project.name}`}
               >
                 <ListCheck size={14} />
-                Tasks
+                Sprints
               </button>
 
   

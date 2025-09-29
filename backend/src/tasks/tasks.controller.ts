@@ -19,7 +19,10 @@ export class TasksController {
   findAll() {
     return this.tasksService.findAll();
   }
-
+ @Get('sprint/:sprintId')
+  findBySprint(@Param('sprintId') sprintId: string) {
+    return this.tasksService.findBySprint(sprintId);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.tasksService.findOne(id); // id en string
@@ -39,4 +42,6 @@ export class TasksController {
   remove(@Param('id') id: string) {
     return this.tasksService.remove(id); // id en string
   }
+
+
 }

@@ -27,7 +27,8 @@ export class CreateTaskDto {
   @IsNotEmpty()
   projectId: string;
 
-
+  @IsNotEmpty()
+  sprintId: string;
   @IsOptional()
   assignedUserId?: number;
     @IsOptional()
