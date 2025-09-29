@@ -94,7 +94,7 @@ function updateTask() {
     { id: 'backlog', title: '🎯 Backlog', status: 'backlog', color: 'bg-slate-100', limit: 10 },
     { id: 'todo', title: '📋 À Faire', status: 'todo', color: 'bg-blue-50' },
     { id: 'progress', title: '🚀 En Cours', status: 'in-progress', color: 'bg-yellow-50', limit: 3 },
-    { id: 'review', title: '👀 Review', status: 'review', color: 'bg-orange-50', limit: 2 },
+    // { id: 'review', title: '👀 Review', status: 'review', color: 'bg-orange-50', limit: 2 },
     { id: 'done', title: '✅ Terminé', status: 'done', color: 'bg-green-50' }
   ];
 
@@ -277,10 +277,10 @@ const addTask = async () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 p-5">
-      <div className="max-w-15xl mx-auto">
+    <div className="bg-gradient-to-br from-blue-400 via-purple-600 to-blue-700 p-5">
+      <div className="max-w-14xl mx-auto">
         {/* Board */}
-        <div className="flex gap-6 overflow-x-auto pb-4">
+        <div className="flex gap-12 overflow-x-auto pb-4">
           {columns.map(column => {
             const columnTasks = tasks.filter(task => task.status === column.status);
             const isOverLimit = column.limit && columnTasks.length > column.limit;
@@ -290,7 +290,7 @@ const addTask = async () => {
             return (
               <div
                 key={column.id}
-                className="min-w-80 bg-white rounded-xl shadow-lg"
+                className="min-w-81 bg-white rounded-xl shadow-lg"
                 onDragOver={handleDragOver}
                 onDrop={(e) => handleDrop(e, column.status)}
               >
